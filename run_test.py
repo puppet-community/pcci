@@ -1,6 +1,7 @@
 import datetime
 import json
 import os
+import re
 import shutil
 import signal
 import subprocess
@@ -120,6 +121,7 @@ def write_log(work_item, response):
     if response['harness_failure']:
         filename = "harness_failures/" + filename
 
+    refilter = re.compile('\x1B\[[0-9;]*[a-zA-Z]')
     with open(path + "/" + filename, 'w') as f:
         f.write("Test log\n")
         f.write("Test performed at {0} - {1}\n".format(unix_seconds, datetime.datetime.utcnow()))
@@ -130,9 +132,9 @@ def write_log(work_item, response):
         else:
             f.write("Tests failed\n")
         for line in response['out']:
-            f.write(line)
+            f.write(refilter.sub('', line))
         for line in response['err']:
-            f.write(line)
+            f.write(refilter.sub('', line))
     f.closed
     return (filename)
 
