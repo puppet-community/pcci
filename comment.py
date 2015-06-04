@@ -20,16 +20,23 @@ def main_loop():
 
 def comment(comment_to_make):
     org, project, pr, ts, success = comment_to_make.split('+')
+    pr_object = g.get_repo(org + "/" + project).get_issue(int(pr))
+    print "Considering {0}".format(comment_to_make)
 
+    # Don't comment if not configured to
     if project in config.commentable:
         pass
     else:
         return
 
-    print "commenting on {0}".format(comment_to_make)
-    #from pdb import set_trace; set_trace()
+    # Don't recomment if status hasn't changed
+    comments = [i for i in pr_object.get_comments() if i.user.login == 'puppet-community-ci']
+    latest_comment = comments[-1]
+    if success in latest_comment.body:
+        print "Pass status unchanged, no need to comment"
+        return
 
-    pr_object = g.get_repo(org + "/" + project).get_issue(int(pr))
+    print "Commenting on {0}".format(comment_to_make)
 
     response_string = """\
 The result of the test was: {0}
