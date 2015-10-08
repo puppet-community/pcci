@@ -7,6 +7,7 @@
   <tr>
     <th>&nbsp;</th>
     <th><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Pull Request</th>
+    <th><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Test Timestamp</th>
     <th><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Seconds</th>
     <th><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Nodeset</th>
     <th><span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> Log</th>
@@ -24,6 +25,7 @@
   <tr>
     <td align='center'><span class="glyphicon {{ icon_class }}" aria-hidden="true" style="color: {{ icon_color }}; text-align: center;"></span></td>
     <td><a href='{{ item.github_url }}' style="color: {{ icon_color }}">{{ "PR #" + item.pr_num }}</a></td>
+    <td>{{ item['pull']['begin_test'] }}</a></td>
     <td>{{ item.response.time }}</td>
   {% if item.nodeset == "trusty" %}
      {% set logo_img="ubuntu.logo.png" %}
