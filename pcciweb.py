@@ -88,8 +88,6 @@ def show_module_by_name(module_name):
     for i in range(completed_length):
         item = json.loads(r.lindex(module_name, i))
         # item = ('x', 'y')
-        pr_num = item['unique_name'].split('/')[2]
-        item['pr_num'] = pr_num  # We should probably do this in the backend.
         rev_completed.append(item)
 
     completed = rev_completed[::-1]
