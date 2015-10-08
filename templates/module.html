@@ -23,7 +23,7 @@
   {% endif %}
   <tr>
     <td align='center'><span class="glyphicon {{ icon_class }}" aria-hidden="true" style="color: {{ icon_color }}; text-align: center;"></span></td>
-    <td><a href='{{ item.github_url }}' style="color: {{ icon_color }}">{{ "PR #" + item.pr_num }}</a></td>
+    <td><a href='{{ item.github_url }}' style="color: {{ icon_color }}">{{ "PR #" + item['pull']['number'] }}</a></td>
     <td>{{ item.response.time }}</td>
   {% if item.nodeset == "trusty" %}
      {% set logo_img="ubuntu.logo.png" %}
