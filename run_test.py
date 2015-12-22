@@ -69,6 +69,11 @@ def run_beaker_rspec(work_item, tempdir):
     runenv["BEAKER_debug"] = 'yes'
     runenv["GEM_HOME"] = '/home/pcci/new_ruby_gems_home'
     runenv["PATH"] = '/home/pcci/new_ruby_gems_home/bin:' + runenv["PATH"]
+
+    # Load environment variables from work item
+    if work_item.get('environment') is not None:
+        for k, v in work_item['environment'].items():
+            runenv[k] = v
     print "Using libvirt nodeset: {0}".format(work_item['nodeset'])
 
     # Write out nodeset file
