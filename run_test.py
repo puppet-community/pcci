@@ -121,11 +121,12 @@ def write_log(work_item, response):
     else:
         succ = 'FAIL'
     unix_seconds = datetime.datetime.utcnow().strftime('%s')
-    filename = "{0}+{1}+{2}+{3}+{4}".format(org,
-                                            project,
-                                            pr,
-                                            unix_seconds,
-                                            succ)
+    filename = "{0}+{1}+{2}+{3}+{4}+{5}".format(org,
+                                                project,
+                                                pr,
+                                                response['nodeset'],
+                                                unix_seconds,
+                                                succ)
     if response['harness_failure']:
         filename = "harness_failures/" + filename
 
