@@ -62,11 +62,11 @@ for repo in repos:
             job['unique_name'] = unique_name
 
             try:
-              pcci_file = yaml.load(g.get_repo(repo).get_contents('.pcci.yml'))
-              os_sets = []
-              os_sets.append(pcci_file['nodesets'])
+                pcci_file = yaml.load(g.get_repo(repo).get_contents('.pcci.yml'))
+                os_sets = []
+                os_sets.append(pcci_file['nodesets'])
             except UnknownObjectException, e:
-              os_sets = ['trusty', 'centos7']
+                os_sets = ['trusty', 'centos7']
 
             job = collectd_job
             job['environment'] = {'PUPPET_DEV_GIT': str(pull.number)}
@@ -76,3 +76,4 @@ for repo in repos:
                 r.rpush('todo', json.dumps(job))
 
         r.set(unique_name, json.dumps(stored_pull))
+        break
