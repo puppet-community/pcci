@@ -69,6 +69,7 @@ for repo in repos:
                 os_sets = ['trusty', 'centos7']
 
             job = collectd_job
+            job['override_name'] = 'puppetlabs/puppet/{0}'.format(pull.number)
             job['environment'] = {'PUPPET_DEV_GIT': str(pull.number)}
 
             for os_set in os_sets:

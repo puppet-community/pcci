@@ -175,11 +175,14 @@ if __name__ == "__main__":
     log_path = write_log(work_item['unique_name'], response)
     print "log written to {0}".format(log_path)
 
-    # build test report object
+    # effect override
+    if work_item.get('override_name') is not None:
+        work_item['unique_name'] = work_item['override_name']
 
+    # build test report object
+    test = {}
     module_name = "/".join(work_item['unique_name'].split("/")[:-1])
     print "module name is {0}".format(module_name)
-    test = {}
     test['unique_name'] = work_item['unique_name']
     test['nodeset'] = work_item['nodeset']
     test['module_name'] = module_name
