@@ -69,6 +69,11 @@ def run_beaker_rspec(work_item, tempdir):
     runenv["BEAKER_debug"] = 'yes'
     runenv["GEM_HOME"] = '/home/pcci/new_ruby_gems_home'
     runenv["PATH"] = '/home/pcci/new_ruby_gems_home/bin:' + runenv["PATH"]
+
+    # Load environment variables from work item
+    if work_item.get('environment') is not None:
+        for k, v in work_item['environment'].items():
+            runenv[k] = v
     print "Using libvirt nodeset: {0}".format(work_item['nodeset'])
 
     # Write out nodeset file
@@ -116,11 +121,12 @@ def write_log(work_item, response):
     else:
         succ = 'FAIL'
     unix_seconds = datetime.datetime.utcnow().strftime('%s')
-    filename = "{0}+{1}+{2}+{3}+{4}".format(org,
-                                            project,
-                                            pr,
-                                            unix_seconds,
-                                            succ)
+    filename = "{0}+{1}+{2}+{3}+{4}+{5}".format(org,
+                                                project,
+                                                pr,
+                                                response['nodeset'],
+                                                unix_seconds,
+                                                succ)
     if response['harness_failure']:
         filename = "harness_failures/" + filename
 
@@ -169,11 +175,14 @@ if __name__ == "__main__":
     log_path = write_log(work_item['unique_name'], response)
     print "log written to {0}".format(log_path)
 
-    # build test report object
+    # effect override
+    if work_item.get('override_name') is not None:
+        work_item['unique_name'] = work_item['override_name']
 
+    # build test report object
+    test = {}
     module_name = "/".join(work_item['unique_name'].split("/")[:-1])
     print "module name is {0}".format(module_name)
-    test = {}
     test['unique_name'] = work_item['unique_name']
     test['nodeset'] = work_item['nodeset']
     test['module_name'] = module_name
