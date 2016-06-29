@@ -61,7 +61,7 @@ for repo in repos:
             job['unique_name'] = unique_name
 
             try:
-              pcci_file = yaml.load(g.get_repo(repo).get_contents('.pcci.yml'))
+              pcci_file = yaml.load(g.get_repo(repo).get_contents('.pcci.yml').content)
               os_sets = pcci_file['nodesets']
             except UnknownObjectException,e:
               os_sets = ['trusty','centos7']
